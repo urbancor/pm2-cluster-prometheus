@@ -15,12 +15,12 @@
     "url": "https://github.com/redar9/pm2-cluster-prometheus.git"
   },
   "config": {
-    "app_name": "api,charge",
-    "port": 3000,
+    "app_name": "dashboard",
+    "port": 4000,
     "reigster_disabled": false,
-    "consul_service_name": "gleeman-api",
+    "consul_service_name": "dashboard",
     "consul_host": "127.0.0.1",
-    "consul_port": "8500",
+    "consul_port": "8080",
     "register_mode": "cluster"
   },
   "apps": [

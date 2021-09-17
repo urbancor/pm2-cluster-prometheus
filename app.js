@@ -57,7 +57,12 @@ pmx.initModule({
             },
             topic: 'Get worker metrics'
         }, err => {
-            if (err) console.error('send worker message error', err)
+            if (err) {
+                for (let value of requests.values()) {
+                    value.pending--;
+                }
+                console.error('send worker message error', err);
+            }
         })
     }
 
@@ -138,14 +143,17 @@ pmx.initModule({
                 requests.delete(message.data.requestId)
                 clearTimeout(request.errorTimeout)
 
-                if (request.failed) return
+                if (request.failed) {
 
-                try {
-                    const registry = AggregatorRegistry.aggregate(request.responses)
-                    const promString = registry.metrics()
-                    request.done(null, promString)
-                } catch (err) {
-                    request.done(new Error('aggregate error prom-client version require >= 11.0.0'))
+                }
+                else {
+                    try {
+                        const registry = AggregatorRegistry.aggregate(request.responses)
+                        const promString = registry.metrics()
+                        request.done(null, promString)
+                    } catch (err) {
+                        request.done(new Error('aggregate error prom-client version require >= 11.0.0'))
+                    }
                 }
             }
         })
